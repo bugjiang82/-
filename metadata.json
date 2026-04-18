@@ -1,0 +1,6 @@
+{
+  "name": "Nano Banana Image Editor",
+  "description": "A powerful image editing tool powered by Gemini Nano Banana models, featuring AI generation, lasso selections, brush tools, and advanced filters.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
