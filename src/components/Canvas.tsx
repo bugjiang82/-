@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Stage, Layer, Image as KonvaImage, Line, Rect, Circle, Group } from 'react-konva';
 import { useStore, ToolType } from '../store/useStore';
 import useImage from 'use-image';
+import { ComparisonSlider } from './ComparisonSlider';
 
 export const Canvas: React.FC = () => {
   const { 
@@ -14,7 +15,10 @@ export const Canvas: React.FC = () => {
     updateShape,
     selectionPath,
     setSelectionPath,
-    setTool
+    setTool,
+    beforeImage,
+    showComparison,
+    setShowComparison
   } = useStore();
 
   const [image] = useImage(currentImage || '');
@@ -128,6 +132,26 @@ export const Canvas: React.FC = () => {
       setTool('select');
     }
   };
+
+  if (showComparison && beforeImage && currentImage) {
+    return (
+      <div className="flex-1 flex flex-col items-center justify-center p-8 bg-editor-bg overflow-hidden animate-in fade-in duration-500">
+        <div className="mb-4 flex items-center justify-between w-full max-w-[800px]">
+           <button 
+             onClick={() => setShowComparison(false)}
+             className="text-xs bg-white/5 hover:bg-white/10 px-4 py-2 rounded-xl text-white/60 transition-all uppercase tracking-widest border border-white/10 hover:text-white hover:border-white/20 active:scale-95"
+           >
+             ← Back to Editor
+           </button>
+           <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-editor-accent animate-pulse" />
+              <span className="text-[10px] text-white/40 uppercase tracking-widest font-mono">Comparison Mode</span>
+           </div>
+        </div>
+        <ComparisonSlider before={beforeImage} after={currentImage} className="w-[800px] h-[600px] shadow-2xl" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1 flex items-center justify-center p-8 bg-editor-bg overflow-hidden">

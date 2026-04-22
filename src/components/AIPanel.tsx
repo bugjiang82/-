@@ -11,6 +11,10 @@ export const AIPanel: React.FC = () => {
     setPrompt, 
     currentImage, 
     setCurrentImage, 
+    beforeImage,
+    setBeforeImage,
+    showComparison,
+    setShowComparison,
     isGenerating, 
     setIsGenerating,
     selectionPath,
@@ -25,15 +29,16 @@ export const AIPanel: React.FC = () => {
     try {
       let resultUrl;
       if (currentImage) {
-        // Simple heuristic: if there's a selection path, use it for context.
-        // In a real app we'd convert the selectionPath to a mask image.
-        // For this demo, we'll send the image + prompt.
+        setBeforeImage(currentImage);
         resultUrl = await editImage(currentImage, prompt);
       } else {
         resultUrl = await generateImage(prompt);
       }
       
       setCurrentImage(resultUrl);
+      if (currentImage) {
+        setShowComparison(true);
+      }
       confetti({
         particleCount: 100,
         spread: 70,

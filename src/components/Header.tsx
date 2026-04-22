@@ -1,9 +1,10 @@
 import React, { useRef } from 'react';
-import { Upload, Download, Banana, HelpCircle } from 'lucide-react';
+import { Upload, Download, Banana, HelpCircle, Columns } from 'lucide-react';
 import { useStore } from '../store/useStore';
+import { cn } from '../lib/utils';
 
 export const Header: React.FC = () => {
-  const { setCurrentImage, currentImage } = useStore();
+  const { setCurrentImage, currentImage, beforeImage, setBeforeImage, showComparison, setShowComparison } = useStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -12,6 +13,8 @@ export const Header: React.FC = () => {
       const reader = new FileReader();
       reader.onload = (event) => {
         setCurrentImage(event.target?.result as string);
+        setBeforeImage(null);
+        setShowComparison(false);
       };
       reader.readAsDataURL(file);
     }
@@ -53,6 +56,21 @@ export const Header: React.FC = () => {
           <Upload size={18} />
           <span className="text-sm font-medium">Upload</span>
         </button>
+
+        {beforeImage && (
+          <button 
+            onClick={() => setShowComparison(!showComparison)}
+            className={cn(
+              "flex items-center gap-2 px-4 py-2 rounded-lg transition-all border",
+              showComparison 
+                ? "bg-editor-accent border-editor-accent text-black font-bold" 
+                : "bg-white/5 border-white/5 text-white/80 hover:bg-white/10"
+            )}
+          >
+            <Columns size={18} />
+            <span className="text-sm">{showComparison ? "Editing" : "Compare"}</span>
+          </button>
+        )}
 
         <button 
           onClick={handleDownload}

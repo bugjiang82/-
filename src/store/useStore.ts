@@ -19,6 +19,8 @@ interface Shape {
 
 interface EditorState {
   currentImage: string | null;
+  beforeImage: string | null;
+  showComparison: boolean;
   tool: ToolType;
   brushColor: string;
   brushSize: number;
@@ -29,6 +31,8 @@ interface EditorState {
   
   // Actions
   setCurrentImage: (image: string | null) => void;
+  setBeforeImage: (image: string | null) => void;
+  setShowComparison: (show: boolean) => void;
   setTool: (tool: ToolType) => void;
   setBrushColor: (color: string) => void;
   setBrushSize: (size: number) => void;
@@ -42,6 +46,8 @@ interface EditorState {
 
 export const useStore = create<EditorState>((set) => ({
   currentImage: null,
+  beforeImage: null,
+  showComparison: false,
   tool: 'brush',
   brushColor: '#000000',
   brushSize: 5,
@@ -51,6 +57,8 @@ export const useStore = create<EditorState>((set) => ({
   prompt: '',
 
   setCurrentImage: (image) => set({ currentImage: image }),
+  setBeforeImage: (image) => set({ beforeImage: image }),
+  setShowComparison: (show) => set({ showComparison: show }),
   setTool: (tool) => set({ tool }),
   setBrushColor: (color) => set({ brushColor: color }),
   setBrushSize: (size) => set({ brushSize: size }),
